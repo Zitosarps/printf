@@ -42,5 +42,5 @@ count += _print_character(*format);
 format++;
 }
 va_end(args);
-return(count);
+return (count);
 }
