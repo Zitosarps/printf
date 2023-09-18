@@ -1,50 +1,64 @@
-#include <stdarg.h>
 #include "main.h"
+
 /**
- * _printf - prints output depending on the forat passwed
- * @format: data type to be printed
+ * _printf - prints output depending on the format passed
+ * @format: format string
  *
- * Return: the number of characters printed.
-*/
+ * Return: the number of characters printed (excluding null byte)
+ */
 int _printf(const char *format, ...)
 {
-va_list args;
 int count = 0;
-va_start(args, format);
-while (*format != '\0')
+va_list args;
+
+if (format == NULL)
 {
-if (*format == '%')
+return (-1);
+}
+
+va_start(args, format);
+
+while (*format)
+{
+if (*format != '%')
+{
+_print_character(*format);
+count++;
+}
+else
 {
 format++;
-if (*format == 'c')
+if (*format == '\0')
+break;
+
+if (*format == '%')
 {
-char char_arg = (char) va_arg(args, int);
-count += _print_character(char_arg);
+_print_character('%');
+count++;
+}
+else if (*format == 'c')
+{
+char c = (char) va_arg(args, int);
+_print_character(c);
+count++;
 }
 else if (*format == 's')
 {
-char *str_arg = va_arg(args, char *);
-while (*str_arg != '\0')
+char *str = va_arg(args, char *);
+if (str == NULL)
+str = "(null)";
+
+while (*str)
 {
-count += _print_character(*str_arg);
-str_arg++;
+_print_character(*str);
+count++;
+str++;
 }
 }
-else if (*format == '%')
-{
-count += _print_character('%');
-}
-else
-{
-count += _print_character(*format);
-}
-}
-else
-{
-count += _print_character(*format);
 }
 format++;
 }
+
 va_end(args);
 return (count);
 }
