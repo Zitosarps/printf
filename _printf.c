@@ -35,7 +35,7 @@ else if (*format == '%')
 count += _print_character('%');
 }
 }
-else 
+else
 {
 count += _print_character(*format);
 }
