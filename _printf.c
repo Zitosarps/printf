@@ -1,4 +1,15 @@
 #include "main.h"
+/**
+ * _printf.c:99: ERROR: parentheses are required on a return statement
+total: 1 errors, 0 warnings, 100 lines checked
+print_normal_character
+print_percent
+_printf.c:32: warning: No description found for parameter or member 'args'
+_printf.c:33: warning: Excess function parameter 'c' description in 'print_char'
+print_char
+print_string
+_printf
+*/
 
 /**
  * print_normal_character - prints a normal character
@@ -25,7 +36,7 @@ return (1);
 
 /**
  * print_char - prints a character
- * @c: character to print
+ * @args: character to print
  *
  * Return: the number of characters printed (always 1)
  */
@@ -96,5 +107,5 @@ format++;
 }
 
 va_end(args);
-return count;
+return (count);
 }
