@@ -34,6 +34,10 @@ else if (*format == '%')
 {
 count += _print_character('%');
 }
+else
+{
+count += _print_character(*format);
+}
 }
 else
 {
