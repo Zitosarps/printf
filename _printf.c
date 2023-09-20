@@ -46,49 +46,30 @@ static int print_string(va_list args)
 {
 char *str = va_arg(args, char *);
 int count = 0;
-
 if (str == NULL)
 str = "(null)";
-
 while (*str)
 {
 _print_character(*str);
 count++;
 str++;
 }
-
 return (count);
 }
 
 /**
- * print_unknown - prints an unknown format specifier
- * @format: the format specifier
- *
- * Return: the number of characters printed (always 2)
- */
-static int print_unknown(char format)
-{
-_print_character('%');
-_print_character(format);
-return (2);
-}
-
-/**
- * _printf - prints output depending on the format passed
- * @format: format string
- *
- * Return: the number of characters printed (excluding null byte)
- */
+* _printf - prints output depending on the format passed
+* @format: format string
+*
+* Return: the number of characters printed (excluding null byte)
+*/
 int _printf(const char *format, ...)
 {
 int count = 0;
 va_list args;
-
 if (format == NULL)
 return (-1);
-
 va_start(args, format);
-
 while (*format)
 {
 if (*format != '%')
@@ -102,13 +83,13 @@ count += print_char(args);
 else if (*format == 's')
 count += print_string(args);
 else
-count += print_unknown(*format);
-
+{
+_print_character('%');
+_print_character(*format);
+count += 2;
+}
 format++;
 }
-
 va_end(args);
 return (count);
 }
-
-
