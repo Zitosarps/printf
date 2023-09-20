@@ -31,7 +31,7 @@ return (1);
  */
 static int print_char(va_list args)
 {
-char c = (char)va_arg(args, int);
+char c = (char) va_arg(args, int);
 _print_character(c);
 return (1);
 }
@@ -61,11 +61,24 @@ return (count);
 }
 
 /**
-* _printf - prints output depending on the format passed
-* @format: format string
-*
-* Return: the number of characters printed (excluding null byte)
-*/
+ * print_unknown - prints an unknown format specifier
+ * @format: the format specifier
+ *
+ * Return: the number of characters printed (always 2)
+ */
+static int print_unknown(char format)
+{
+_print_character('%');
+_print_character(format);
+return (2);
+}
+
+/**
+ * _printf - prints output depending on the format passed
+ * @format: format string
+ *
+ * Return: the number of characters printed (excluding null byte)
+ */
 int _printf(const char *format, ...)
 {
 int count = 0;
@@ -88,6 +101,8 @@ else if (*format == 'c')
 count += print_char(args);
 else if (*format == 's')
 count += print_string(args);
+else
+count += print_unknown(*format);
 
 format++;
 }
@@ -95,3 +110,5 @@ format++;
 va_end(args);
 return (count);
 }
+
+
