@@ -1,60 +1,46 @@
 #include "main.h"
 
 /**
- * print_normal_character - prints a normal character
- * @c: character to print
+ * print_character - prints a character
+ * @list: list of arguments
  *
- * Return: the number of characters printed (always 1)
+ * Return: Always 1
  */
-static int print_normal_character(char c)
-{
-_print_character(c);
-return (1);
+int print_character(va_list list) {
+char c = va_arg(list, int);
+return put_character(c);
 }
 
-/**
- * print_percent - prints a percent character
- *
- * Return: the number of characters printed (always 1)
- */
-static int print_percent(void)
-{
-_print_character('%');
-return (1);
-}
-
-/**
- * print_char - prints a character
- * @args: va_list containing the character to print
- *
- * Return: the number of characters printed (always 1)
- */
-static int print_char(va_list args)
-{
-char c = (char) va_arg(args, int);
-_print_character(c);
-return (1);
-}
 
 /**
  * print_string - prints a string
- * @args: va_list containing the string to print
+ * @list: list of arguments
  *
- * Return: the number of characters printed (excluding null byte)
+ * Return: The number of characters printed.
  */
-static int print_string(va_list args)
-{
-char *str = va_arg(args, char *);
+int print_string(va_list list) {
+char *str = va_arg(list, char *);
 int count = 0;
+int i;
 if (str == NULL)
 str = "(null)";
-while (*str)
-{
-_print_character(*str);
-count++;
-str++;
+
+
+for (i = 0; str[i] != '\0'; i++) {
+count += put_character(str[i]);
 }
-return (count);
+return count;
+}
+
+/**
+ * print_percentage - prints a percent symbol
+ * @list: list of arguments
+ *
+ * Return: 1 (the number of characters printed)
+ */
+
+int print_percentage(__attribute__((unused)) va_list list) {
+return put_character('%');
 }
 
 /**
@@ -63,33 +49,33 @@ return (count);
 *
 * Return: the number of characters printed (excluding null byte)
 */
-int _printf(const char *format, ...)
-{
-int count = 0;
+int _printf(const char *format, ...) {
+int chars = 0;
+int i;
 va_list args;
-if (format == NULL)
-return (-1);
 va_start(args, format);
-while (*format)
-{
-if (*format != '%')
-count += print_normal_character(*format);
-else if (*(++format) == '\0')
+for (i = 0; format[i] != '\0'; i++) {
+if (format[i] == '%') {
+i++;
+switch (format[i]) {
+case 'c':
+chars += print_character(args);
 break;
-else if (*format == '%')
-count += print_percent();
-else if (*format == 'c')
-count += print_char(args);
-else if (*format == 's')
-count += print_string(args);
-else
-{
-_print_character('%');
-_print_character(*format);
-count += 2;
+case 's':
+chars += print_string(args);
+break;
+case '%':
+chars += print_percentage(args);
+break;
+default:
+chars += put_character('%');
+chars += put_character(format[i]);
+break;
 }
-format++;
+} else {
+chars += put_character(format[i]);
+}
 }
 va_end(args);
-return (count);
+return chars;
 }
