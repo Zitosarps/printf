@@ -61,7 +61,8 @@ va_list args;
 va_start(args, format);
 for (i = 0; format[i] != '\0'; i++)
 {
-if (format[i] == '%') {
+if (format[i] == '%')
+{
 i++;
 switch (format[i])
 {
