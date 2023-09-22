@@ -6,9 +6,10 @@
  *
  * Return: Always 1
  */
-int print_character(va_list list) {
+int print_character(va_list list)
+{
 char c = va_arg(list, int);
-return put_character(c);
+return (put_character(c));
 }
 
 
@@ -18,7 +19,8 @@ return put_character(c);
  *
  * Return: The number of characters printed.
  */
-int print_string(va_list list) {
+int print_string(va_list list)
+{
 char *str = va_arg(list, char *);
 int count = 0;
 int i;
@@ -26,10 +28,11 @@ if (str == NULL)
 str = "(null)";
 
 
-for (i = 0; str[i] != '\0'; i++) {
+for (i = 0; str[i] != '\0'; i++)
+{
 count += put_character(str[i]);
 }
-return count;
+return (count);
 }
 
 /**
@@ -39,8 +42,9 @@ return count;
  * Return: 1 (the number of characters printed)
  */
 
-int print_percentage(__attribute__((unused)) va_list list) {
-return put_character('%');
+int print_percentage(__attribute__((unused)) va_list list)
+{
+return (put_character('%'));
 }
 
 /**
@@ -49,15 +53,18 @@ return put_character('%');
 *
 * Return: the number of characters printed (excluding null byte)
 */
-int _printf(const char *format, ...) {
+int _printf(const char *format, ...)
+{
 int chars = 0;
 int i;
 va_list args;
 va_start(args, format);
-for (i = 0; format[i] != '\0'; i++) {
+for (i = 0; format[i] != '\0'; i++)
+{
 if (format[i] == '%') {
 i++;
-switch (format[i]) {
+switch (format[i])
+{
 case 'c':
 chars += print_character(args);
 break;
@@ -72,10 +79,12 @@ chars += put_character('%');
 chars += put_character(format[i]);
 break;
 }
-} else {
+}
+else
+{
 chars += put_character(format[i]);
 }
 }
 va_end(args);
-return chars;
+return (chars);
 }
